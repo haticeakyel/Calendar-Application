@@ -34,6 +34,12 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime startDate = DateTime.utc(2000, 1, 1);
   DateTime endDate = DateTime.utc(2099, 12, 31);
 
+  void onSelected(DateTime day, DateTime focusedDay) {
+    setState(() {
+      now = day;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,17 +48,20 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          Text("Calendar"),
-          Container(
-            child: TableCalendar(
-              focusedDay: now,
-              firstDay: startDate,
-              lastDay: endDate,
-              rowHeight: 50,
-              headerStyle:
-                  HeaderStyle(formatButtonVisible: false, titleCentered: true),
-            ),
+          const Text("Calendar"),
+          TableCalendar(
+            focusedDay: now,
+            firstDay: startDate,
+            lastDay: endDate,
+            startingDayOfWeek: StartingDayOfWeek.monday,
+            rowHeight: 50,
+            availableGestures: AvailableGestures.all,
+            selectedDayPredicate: (day) => isSameDay(day, now),
+            onDaySelected: onSelected,
+            headerStyle: const HeaderStyle(
+                formatButtonVisible: false, titleCentered: true),
           ),
+          Text("You select " + now.toString().split(" ")[0]),
         ],
       ),
     );
