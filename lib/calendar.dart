@@ -50,11 +50,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage(""), fit: BoxFit.cover)),
+            image: DecorationImage(
+                colorFilter: ColorFilter.mode(
+                    Colors.white.withOpacity(0.4), BlendMode.modulate),
+                image: AssetImage("assets/mercury.png"),
+                fit: BoxFit.cover)),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: const Text(
                 "Calendar",
                 style: TextStyle(
@@ -64,6 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             TableCalendar(
+              daysOfWeekStyle: DaysOfWeekStyle(
+                  weekdayStyle: TextStyle(fontWeight: FontWeight.bold)),
+              calendarStyle: CalendarStyle(
+                defaultTextStyle:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                todayTextStyle:
+                    TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
               eventLoader: getEvent,
               focusedDay: now,
               firstDay: startDate,
@@ -74,7 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
               selectedDayPredicate: (day) => isSameDay(day, now),
               onDaySelected: onSelected,
               headerStyle: const HeaderStyle(
-                  formatButtonVisible: false, titleCentered: true),
+                  formatButtonVisible: false,
+                  titleCentered: true,
+                  titleTextStyle:
+                      TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
             ),
             ...getEvent(now).map((Event e) => ListTile(
                   title: Container(
